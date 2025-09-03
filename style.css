@@ -1,6 +1,53 @@
-body {
-  background: linear-gradient(to right, rgb(255, 2, 2), rgb(255, 0, 76), rgb(185, 2, 251));
+body { 
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #4facfe, #00f2fe); margin: 0; padding: 20px;
 }
-#logo{
-     
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.imgContainer div {
+  text-align: center;
+}
+
+.imgContainer img {
+  width: 120px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.imgContainer img:hover {
+  transform: scale(1.1);
+}
+.evoNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.pokemonCard {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.evoChildren {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
 }

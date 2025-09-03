@@ -4,9 +4,16 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1 id="gamerSkull">Gamer skull</h1>
-<img src="images.png" alt="the logo of gamer skull" id="logo">
-<p id="searchBar"></p>
+<div class="container">
+<input type="text" id="pokemonName" placeholder="Enter Pokemon Name">
+<button onclick="getPokemonChain()">Search</button>
+
+</div>
+<br>
+<div id="msg" style="margin-top:10px;color:#fff;font-weight:600;"></div>
+<div class="imgContainer" id="imgContainer">
+
+</div>
 <script src="app.js"></script>   
 </body>
 </html>
