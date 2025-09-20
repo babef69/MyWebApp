@@ -1,6 +1,4 @@
-async function getPokemonData() {
-  const pokemonName = document.getElementById("pokemonName").value.trim().toLowerCase();
-  if (!pokemonName) throw new Error("Type a Pokémon Name");
+async function getPokemonData(pokemonName) {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
   if (!response.ok) throw new Error(`Pokémon "${pokemonName}" not found.`);
   return await response.json();
@@ -8,30 +6,30 @@ async function getPokemonData() {
 
 async function getPokemonChain() {
   const container = document.getElementById('imgContainer');
+  const infoContainer = document.getElementById("pokemonDiv")
   const msg = document.getElementById('msg');
+  infoContainer.innerHTML = "";
   container.innerHTML = "";
   msg.textContent = "";
-
+  const pokemonName = document.getElementById("pokemonName").value.trim().toLowerCase();
+  if (!pokemonName) throw new Error("Type a Pokémon Name");
   try {
-    const pokemonData = await getPokemonData();
+    const pokemonData = await getPokemonData(pokemonName);
     const speciesData = await (await fetch(pokemonData.species.url)).json();
     const evolutionData = await (await fetch(speciesData.evolution_chain.url)).json();
     await buildEvolutionTree(evolutionData.chain, container);
-  } catch (err) {
-    msg.textContent = err.message;
+  } catch (error) {
+    msg.textContent = error.message;
   }
 }
 
 async function buildEvolutionTree(pokemonNode, container) {
 
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNode.species.name}`);
-  if (!res.ok) return;
-  const pokemonData = await res.json();
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNode.species.name}`);
+  if (!response.ok) return;
+  const pokemonData = await response.json();
 
-  const sprite =
-    pokemonData.sprites.front_default ||
-    pokemonData.sprites.other?.['official-artwork']?.front_default ||
-    pokemonData.sprites.other?.dream_world?.front_default;
+  const sprite = pokemonData.sprites.front_default;
 
   const nodeEl = document.createElement('div');
   nodeEl.classList.add('evoNode');
@@ -42,7 +40,9 @@ async function buildEvolutionTree(pokemonNode, container) {
   if (sprite) {
     const img = document.createElement('img');
     img.src = sprite;
+    img.id = pokemonNode.species.name;
     img.alt = pokemonNode.species.name;
+    img.onclick = function (){pokemonInformation(pokemonNode.species.name)};
     wrap.appendChild(img);
   }
 
@@ -64,4 +64,19 @@ async function buildEvolutionTree(pokemonNode, container) {
   }
 
   container.appendChild(nodeEl);
+}
+function pokemonInformation(pokemonName){
+  const container = document.getElementById("pokemonDiv");
+  const label = document.createElement('p');
+  label.classList.add("PokemonName");
+  label.classList.add("pokemonDiv")
+  label.textContent = pokemonName;
+  pokemonImg = document.getElementById(pokemonName);
+
+  container.appendChild(label);
+  container.appendChild(pokemonImg);
+  clearElement("imgContainer");
+}
+function clearElement(elementId){
+  document.getElementById(elementId).innerHTML = "";
 }
